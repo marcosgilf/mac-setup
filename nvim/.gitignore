@@ -1,0 +1,10 @@
+tt.*
+.tests
+doc/tags
+debug
+.repro
+foo.*
+*.log
+
+# Neovim data/state when this repo is used directly
+data

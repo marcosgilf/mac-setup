@@ -1,0 +1,6 @@
+# Keep ZDOTDIR setup portable across macOS machines.
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+
+# The main environment lives with the zsh repository.
+[[ -r "$ZDOTDIR/.zshenv" ]] && source "$ZDOTDIR/.zshenv"

@@ -1,0 +1,13 @@
+brew "bat"
+brew "eza"
+brew "fd"
+brew "fzf"
+brew "herdr"
+brew "neovim"
+brew "ripgrep"
+brew "starship"
+brew "zoxide"
+brew "zsh"
+
+cask "font-jetbrains-mono-nerd-font"
+cask "ghostty"

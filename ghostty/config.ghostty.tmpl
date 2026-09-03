@@ -1,0 +1,47 @@
+# @THEME_NAME@ configuration
+
+# Typography
+font-family = JetBrainsMono Nerd Font
+font-style = Regular
+font-size = 14
+
+# Colors
+background = @BACKGROUND@
+foreground = @FOREGROUND@
+cursor-color = @BRIGHT_FOREGROUND@
+selection-background = @SELECTION_BACKGROUND@
+selection-foreground = @SELECTION_FOREGROUND@
+palette = 0=@BACKGROUND@
+palette = 1=@RED@
+palette = 2=@GREEN@
+palette = 3=@YELLOW@
+palette = 4=@BLUE@
+palette = 5=@MAGENTA@
+palette = 6=@CYAN@
+palette = 7=@FOREGROUND@
+palette = 8=@MUTED@
+palette = 9=@BRIGHT_RED@
+palette = 10=@BRIGHT_GREEN@
+palette = 11=@BRIGHT_YELLOW@
+palette = 12=@BRIGHT_BLUE@
+palette = 13=@BRIGHT_MAGENTA@
+palette = 14=@BRIGHT_CYAN@
+palette = 15=@BRIGHT_FOREGROUND@
+
+# Window
+window-padding-x = 14
+window-padding-y = 14
+window-theme = ghostty
+confirm-close-surface = false
+
+# Cursor
+cursor-style = block
+cursor-style-blink = false
+
+# Shell integration
+shell-integration-features = no-cursor,ssh-env
+
+# Useful TUI keybindings
+keybind = shift+insert=paste_from_clipboard
+keybind = control+insert=copy_to_clipboard
+keybind = shift+enter=csi:13;2u

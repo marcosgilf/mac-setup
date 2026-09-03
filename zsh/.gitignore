@@ -1,0 +1,24 @@
+# Zsh compiled files
+*.zwc
+.zcompdump*
+.zsh_sessions/
+.zcompcache/
+
+# Auto-installed plugins
+plugins/
+
+# Machine-local overrides
+local.zsh
+.zprofile
+
+# Generated theme config
+starship.toml
+
+# Local functions and metadata
+functions/local/
+
+# macOS metadata
+.DS_Store
+
+# Tutorial outline
+TUTORIAL.md

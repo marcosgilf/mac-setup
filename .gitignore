@@ -1,0 +1,12 @@
+.DS_Store
+*.swp
+*.bak.*
+*.local
+.env*
+
+# Rendered configuration
+ghostty/config.ghostty
+herdr/config.toml
+nvim/lua/plugins/tokyo-night.lua
+zsh/starship.toml
+zsh/functions/local/
