@@ -39,6 +39,7 @@ preserve_local_zsh() {
 
 command -v brew >/dev/null || { print -u2 'Homebrew required'; exit 1; }
 brew bundle --file="$ROOT/Brewfile"
+mkdir -p "$HOME/.nvm"
 
 preserve_local_zsh
 "$ROOT/scripts/render-configs.sh"
