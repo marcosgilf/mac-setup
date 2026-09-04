@@ -6,6 +6,7 @@ brew "herdr"
 brew "neovim"
 brew "ripgrep"
 brew "starship"
+brew "tuicr"
 brew "zoxide"
 brew "zsh"
 

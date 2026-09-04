@@ -41,10 +41,9 @@ alias vim='nvim'
 # Configs
 # =========================================================
 
-alias edit-zsh='nvim ~/.config/zsh/.zshrc'
-alias edit-starship='nvim "$ZDOTDIR/starship.toml"'
-alias edit-wezterm='nvim ~/.wezterm.lua'
-alias edit-nvim='nvim ~/.config/nvim/init.lua'
+alias edit-zsh='nvim "$ZDOTDIR/.zshrc"'
+alias edit-starship='nvim "$ZDOTDIR/starship.toml.tmpl"'
+alias edit-nvim='nvim "$XDG_CONFIG_HOME/nvim/init.lua"'
 
 alias reload-zsh='source ~/.config/zsh/.zshrc'
 

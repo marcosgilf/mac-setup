@@ -10,6 +10,7 @@ render() {
   mkdir -p "$(dirname -- "$output")"
   sed \
     -e "s|@THEME_NAME@|$THEME_NAME|g" \
+    -e "s|@TUICR_THEME@|$TUICR_THEME|g" \
     -e "s|@HERDR_THEME@|$HERDR_THEME|g" \
     -e "s|@NVIM_COLORSCHEME@|$NVIM_COLORSCHEME|g" \
     -e "s|@BACKGROUND@|$BACKGROUND|g" \
@@ -45,4 +46,6 @@ render() {
 render "$ROOT/ghostty/config.ghostty.tmpl" "$ROOT/ghostty/config.ghostty"
 render "$ROOT/herdr/config.toml.tmpl" "$ROOT/herdr/config.toml"
 render "$ROOT/nvim/lua/plugins/tokyo-night.lua.tmpl" "$ROOT/nvim/lua/plugins/tokyo-night.lua"
+render "$ROOT/tuicr/config.toml.tmpl" "$ROOT/tuicr/config.toml"
+render "$ROOT/tuicr/themes/tokyo-night.toml.tmpl" "$ROOT/tuicr/themes/tokyo-night.toml"
 render "$ROOT/zsh/starship.toml.tmpl" "$ROOT/zsh/starship.toml"

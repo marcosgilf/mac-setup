@@ -46,6 +46,8 @@ preserve_local_zsh
 link_config "$ROOT/zsh" "$ZSH_DIR"
 link_config "$ROOT/ghostty/config.ghostty" "$HOME/Library/Application Support/com.mitchellh.ghostty/config.ghostty"
 link_config "$ROOT/herdr/config.toml" "$CONFIG_HOME/herdr/config.toml"
+link_config "$ROOT/tuicr/config.toml" "$CONFIG_HOME/tuicr/config.toml"
+link_config "$ROOT/tuicr/themes/tokyo-night.toml" "$CONFIG_HOME/tuicr/themes/tokyo-night.toml"
 link_config "$ROOT/nvim" "$NVIM_DIR"
 link_config "$ROOT/bootstrap/zshenv" "$HOME/.zshenv"
 
