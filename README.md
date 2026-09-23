@@ -4,21 +4,30 @@ Opinionated macOS development environment with one shared Tokyo Night theme.
 
 ## Included tools
 
-- **Ghostty** — GPU terminal with JetBrainsMono Nerd Font, generous padding,
-  block cursor, and useful TUI keybindings.
 - **zsh** — modular shell config with Starship, fzf, zoxide, eza, bat, fd, and
   syntax highlighting.
 - **Neovim** — LazyVim configuration with sensible defaults, LSP support,
   Treesitter, completion, Git signs, and Tokyo Night.
-- **Herdr** — persistent terminal workspace and agent multiplexer.
+- **Node.js 22 + nvm** — Node version manager with v22 as default.
+- **Pi** — terminal coding agent, installed globally with npm.
+- **Optional:** Ghostty terminal, Herdr multiplexer, Tuicr.
 
-Homebrew manages installation through `Brewfile`. Theme values live in
+Homebrew manages core tools through `Brewfile`; installer prompts for optional
+tools and links only their selected configs. Theme values live in
 `theme/tokyo-night.sh`; `scripts/render-configs.sh` generates app-specific
 configuration from those constants.
 
 ## Install
 
-Requirements: macOS 13+, Git, Homebrew.
+Requirements: macOS 13+. Install Apple Command Line Tools first if missing;
+Git may open the installer prompt on a new Mac:
+
+```sh
+xcode-select --install
+```
+
+Wait for installation to finish, then clone and run setup. Installer installs
+Homebrew if missing.
 
 ```sh
 git clone https://github.com/marcosgilf/mac-setup ~/mac-setup
@@ -27,7 +36,9 @@ git clone https://github.com/marcosgilf/mac-setup ~/mac-setup
 
 Installer:
 
-- installs tools and font from `Brewfile`
+- installs core tools from `Brewfile` and prompts before installing Ghostty,
+  Herdr, and Tuicr (press Enter to accept each default)
+- installs nvm, sets Node.js 22 as default, then installs Pi
 - renders configuration files from the shared theme
 - links managed files into standard macOS config paths
 - preserves existing configs as timestamped backups
