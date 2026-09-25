@@ -8,7 +8,8 @@ Opinionated macOS development environment with one shared Tokyo Night theme.
   syntax highlighting.
 - **Neovim** — LazyVim configuration with sensible defaults, LSP support,
   Treesitter, completion, Git signs, and Tokyo Night.
-- **Node.js 22 + nvm** — Node version manager with v22 as default.
+- **Node.js + nvm** — preserves existing selections; defaults fresh setups to
+  v22.
 - **Pi** — terminal coding agent, installed globally with npm.
 - **Optional:** Ghostty terminal, Herdr multiplexer.
 
@@ -36,9 +37,14 @@ git clone https://github.com/marcosgilf/mac-setup ~/mac-setup
 
 Installer:
 
-- installs core tools from `Brewfile` and prompts before installing Ghostty
-  and Herdr (press Enter to accept each default)
-- installs nvm, sets Node.js 22 as default, then installs Pi
+- installs core tools from `Brewfile` and prompts for Ghostty and Herdr only
+  when they are not already installed
+- preserves an existing nvm default/active version; sets Node.js 22 as default
+  when no nvm Node is selected
+- installs Pi if missing and runs `pi update --all` when Node.js is 22.19+;
+  warns and skips Pi otherwise
+- prints dependency progress and first-install launch steps; reruns report
+  `Update completed.`
 - renders configuration files from the shared theme
 - links managed files into standard macOS config paths
 - preserves existing configs as timestamped backups
@@ -51,8 +57,9 @@ Keep this repository at a stable path because managed symlinks point into it.
 
 ```sh
 open -a Ghostty
-nvim
 herdr
+pi
+nvim
 ```
 
 Start a new shell after installation. Neovim plugins install on first launch;
