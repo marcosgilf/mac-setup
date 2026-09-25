@@ -67,15 +67,12 @@ ask() {
 
 install_ghostty=0
 install_herdr=0
-install_tuicr=0
 ask 'Install Ghostty terminal?' && install_ghostty=1
 ask 'Install Herdr multiplexer?' && install_herdr=1
-ask 'Install Tuicr?' && install_tuicr=1
 
 brew bundle --file="$ROOT/Brewfile"
 (( install_ghostty )) && brew install --cask font-jetbrains-mono-nerd-font ghostty
 (( install_herdr )) && brew install herdr
-(( install_tuicr )) && brew install tuicr
 
 mkdir -p "$HOME/.nvm"
 export NVM_DIR="$HOME/.nvm"
@@ -92,8 +89,6 @@ preserve_local_zsh
 link_config "$ROOT/zsh" "$ZSH_DIR"
 (( install_ghostty )) && link_config "$ROOT/ghostty/config.ghostty" "$HOME/Library/Application Support/com.mitchellh.ghostty/config.ghostty"
 (( install_herdr )) && link_config "$ROOT/herdr/config.toml" "$CONFIG_HOME/herdr/config.toml"
-(( install_tuicr )) && link_config "$ROOT/tuicr/config.toml" "$CONFIG_HOME/tuicr/config.toml"
-(( install_tuicr )) && link_config "$ROOT/tuicr/themes/tokyo-night.toml" "$CONFIG_HOME/tuicr/themes/tokyo-night.toml"
 link_config "$ROOT/nvim" "$NVIM_DIR"
 link_config "$ROOT/bootstrap/zshenv" "$HOME/.zshenv"
 

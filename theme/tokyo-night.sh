@@ -1,5 +1,4 @@
 THEME_NAME='tokyo-night'
-TUICR_THEME='tokyo-night'
 HERDR_THEME='tokyo-night'
 NVIM_COLORSCHEME='tokyonight-night'
 

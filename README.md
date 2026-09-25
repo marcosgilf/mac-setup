@@ -10,7 +10,7 @@ Opinionated macOS development environment with one shared Tokyo Night theme.
   Treesitter, completion, Git signs, and Tokyo Night.
 - **Node.js 22 + nvm** — Node version manager with v22 as default.
 - **Pi** — terminal coding agent, installed globally with npm.
-- **Optional:** Ghostty terminal, Herdr multiplexer, Tuicr.
+- **Optional:** Ghostty terminal, Herdr multiplexer.
 
 Homebrew manages core tools through `Brewfile`; installer prompts for optional
 tools and links only their selected configs. Theme values live in
@@ -36,8 +36,8 @@ git clone https://github.com/marcosgilf/mac-setup ~/mac-setup
 
 Installer:
 
-- installs core tools from `Brewfile` and prompts before installing Ghostty,
-  Herdr, and Tuicr (press Enter to accept each default)
+- installs core tools from `Brewfile` and prompts before installing Ghostty
+  and Herdr (press Enter to accept each default)
 - installs nvm, sets Node.js 22 as default, then installs Pi
 - renders configuration files from the shared theme
 - links managed files into standard macOS config paths
