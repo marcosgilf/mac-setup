@@ -45,20 +45,26 @@ if ! xcode-select -p >/dev/null 2>&1; then
   exit 1
 fi
 
-if ! command -v brew >/dev/null 2>&1; then
-  print 'Installing Homebrew...'
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
-
-if [[ -x /opt/homebrew/bin/brew ]]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-elif [[ -x /usr/local/bin/brew ]]; then
-  eval "$(/usr/local/bin/brew shellenv)"
-elif command -v brew >/dev/null 2>&1; then
-  eval "$(brew shellenv)"
+if [[ -n "${BREW_BIN:-}" ]]; then
+  [[ -x "$BREW_BIN" ]] || { print -u2 "Invalid BREW_BIN: $BREW_BIN"; exit 1; }
+  brew() { "$BREW_BIN" "$@"; }
+  eval "$("$BREW_BIN" shellenv)"
 else
-  print -u2 'Homebrew installation failed'
-  exit 1
+  if ! command -v brew >/dev/null 2>&1; then
+    print 'Installing Homebrew...'
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  fi
+
+  if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [[ -x /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  elif command -v brew >/dev/null 2>&1; then
+    eval "$(brew shellenv)"
+  else
+    print -u2 'Homebrew installation failed'
+    exit 1
+  fi
 fi
 
 trace() {

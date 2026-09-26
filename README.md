@@ -76,6 +76,14 @@ git pull
 Run `:Lazy sync` inside Neovim when intentionally updating plugins, then commit
 `nvim/lazy-lock.json`.
 
+## Test
+
+```sh
+./scripts/test-install.sh
+```
+
+Smoke test stubs Homebrew, NVM, npm, and Pi; uses temporary home directories.
+
 ## Privacy boundary
 
 Only portable configuration belongs here. Never add shell history, cloud or

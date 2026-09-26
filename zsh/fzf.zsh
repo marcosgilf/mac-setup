@@ -22,9 +22,8 @@ export FZF_CTRL_T_OPTS="--preview '$_FZF_PREVIEW_CMD'"
 
 # Ctrl+F: file picker excluding hidden files
 _fzf_file_no_hidden() {
-  local cmd result
-  cmd="${FZF_DEFAULT_COMMAND/--hidden /}"
-  result=$(eval "${cmd:-find . -type f}" | fzf --preview "$_FZF_PREVIEW_CMD") \
+  local result
+  result=$(fd --type f --strip-cwd-prefix | fzf --preview "$_FZF_PREVIEW_CMD") \
     && LBUFFER+="$result"  # LBUFFER is the text left of the cursor
   zle reset-prompt
 }

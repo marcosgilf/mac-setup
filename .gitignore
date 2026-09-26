@@ -8,7 +8,6 @@
 ghostty/config.ghostty
 herdr/config.toml
 nvim/lua/plugins/tokyo-night.lua
-nvim/lazy-lock.json
 nvim/lazyvim.json
 zsh/starship.toml
 zsh/functions/local/
