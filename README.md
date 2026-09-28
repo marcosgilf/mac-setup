@@ -4,14 +4,53 @@ Opinionated macOS development environment with one shared Tokyo Night theme.
 
 ## Included tools
 
-- **zsh** — modular shell config with Starship, fzf, zoxide, eza, bat, fd, and
-  syntax highlighting.
-- **Neovim** — LazyVim configuration with sensible defaults, LSP support,
-  Treesitter, completion, Git signs, and Tokyo Night.
-- **Node.js + nvm** — preserves existing selections; defaults fresh setups to
-  v22.
-- **Pi** — terminal coding agent, installed globally with npm.
-- **Optional:** Ghostty terminal, Herdr multiplexer.
+- **[zsh](https://github.com/zsh-users/zsh)** — interactive shell configured with:
+  - [Starship](https://github.com/starship/starship) — customizable prompt.
+  - [fzf](https://github.com/junegunn/fzf) — fuzzy finder for files and history.
+  - [zoxide](https://github.com/ajeetdsouza/zoxide) — frecency-based directory
+    navigation.
+  - [eza](https://github.com/eza-community/eza) — modern `ls` replacement.
+  - [bat](https://github.com/sharkdp/bat) — `cat` replacement with syntax
+    highlighting.
+  - [fd](https://github.com/sharkdp/fd) — fast, user-friendly file finder.
+  - [ripgrep](https://github.com/BurntSushi/ripgrep) — fast recursive text search.
+  - [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) —
+    suggests commands from history as you type.
+  - [History substring search](https://github.com/zsh-users/zsh-history-substring-search) —
+    searches history using the current command line.
+  - [zsh-vi-mode](https://github.com/jeffreytse/zsh-vi-mode) — vi-style editing
+    modes and keybindings.
+  - [fast-syntax-highlighting](https://github.com/zdharma-continuum/fast-syntax-highlighting) —
+    highlights shell syntax while editing commands.
+
+  Zsh plugins clone from GitHub on first shell startup.
+- **[Neovim](https://github.com/neovim/neovim)** — editor configured with:
+  - [LazyVim](https://github.com/LazyVim/LazyVim) — opinionated setup and plugin
+    collection.
+  - [lazy.nvim](https://github.com/folke/lazy.nvim) — plugin manager used by
+    LazyVim.
+  - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) — LSP client
+    configurations.
+  - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) —
+    syntax parsing and highlighting.
+  - [blink.cmp](https://github.com/Saghen/blink.cmp) — completion engine.
+  - [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) — Git change
+    indicators in the sign column.
+  - [Tokyo Night](https://github.com/folke/tokyonight.nvim) — Neovim color
+    scheme.
+- **Node.js and nvm** — runtime and version manager:
+  - [Node.js](https://github.com/nodejs/node) — JavaScript runtime; fresh setups
+    default to v22, and Pi requires v22.19+.
+  - [nvm](https://github.com/nvm-sh/nvm) — manages Node versions; existing
+    selections are preserved.
+- **[Pi](https://github.com/earendil-works/pi)** — terminal coding agent,
+  installed globally with npm.
+- **Optional tools:**
+  - [Ghostty](https://github.com/ghostty-org/ghostty) — GPU-accelerated terminal.
+  - [JetBrainsMono Nerd Font](https://github.com/ryanoasis/nerd-fonts) — font
+    installed with Ghostty.
+  - [Herdr](https://github.com/herdrdev/herdr) — terminal multiplexer for
+    persistent workspaces and coding agents.
 
 Homebrew manages core tools through `Brewfile`; installer prompts for optional
 tools and links only their selected configs. Theme values live in
