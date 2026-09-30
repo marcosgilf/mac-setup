@@ -1,6 +1,7 @@
 # mac-setup
 
-Opinionated macOS development environment with one shared Tokyo Night theme.
+Opinionated macOS and Debian/Ubuntu Linux development environment with one
+shared Tokyo Night theme.
 
 ## Included tools
 
@@ -52,12 +53,14 @@ Opinionated macOS development environment with one shared Tokyo Night theme.
   - [Herdr](https://github.com/herdrdev/herdr) — terminal multiplexer for
     persistent workspaces and coding agents.
 
-Homebrew manages core tools through `Brewfile`; installer prompts for optional
+Homebrew (Linuxbrew on Linux) manages core tools through `Brewfile`; installer prompts for optional
 tools and links only their selected configs. Theme values live in
 `theme/tokyo-night.sh`; `scripts/render-configs.sh` generates app-specific
 configuration from those constants.
 
 ## Install
+
+### macOS
 
 Requirements: macOS 13+. Install Apple Command Line Tools first if missing;
 Git may open the installer prompt on a new Mac:
@@ -74,10 +77,24 @@ git clone https://github.com/marcosgilf/mac-setup ~/mac-setup
 ~/mac-setup/install.sh
 ```
 
+### Debian/Ubuntu Linux (VPS or remote machine)
+
+Run as a non-root user with `sudo`; install Git before cloning:
+
+```sh
+sudo apt-get update && sudo apt-get install -y git
+git clone https://github.com/marcosgilf/mac-setup ~/mac-setup
+~/mac-setup/install-linux.sh
+```
+
+Linux installer bootstraps Linuxbrew when missing and installs core tools from
+`Brewfile`. Ghostty and its font are skipped on headless Linux; Herdr remains
+optional. Other Linux distributions are not supported yet.
+
 Installer:
 
-- installs core tools from `Brewfile` and prompts for Ghostty and Herdr only
-  when they are not already installed
+- installs core tools from `Brewfile`; macOS prompts for Ghostty and Herdr only
+  when they are not already installed, Linux prompts for Herdr only
 - preserves an existing nvm default/active version; sets Node.js 22 as default
   when no nvm Node is selected
 - installs Pi if missing and runs `pi update --all` when Node.js is 22.19+;
@@ -94,23 +111,25 @@ Keep this repository at a stable path because managed symlinks point into it.
 
 ## Use
 
+On macOS, open Ghostty if installed. On Linux, start Zsh with `zsh`. Then run:
+
 ```sh
-open -a Ghostty
 herdr
 pi
 nvim
 ```
 
-Start a new shell after installation. Neovim plugins install on first launch;
-`nvim/lazy-lock.json` records their versions.
+The installer does not change your login shell. Neovim plugins install on first
+launch; `nvim/lazy-lock.json` records their versions.
 
 ## Update
 
 ```sh
 cd ~/mac-setup
 git pull
-./install.sh
 ```
+
+Run `./install.sh` on macOS or `./install-linux.sh` on Debian/Ubuntu Linux.
 
 Run `:Lazy sync` inside Neovim when intentionally updating plugins, then commit
 `nvim/lazy-lock.json`.
@@ -121,7 +140,9 @@ Run `:Lazy sync` inside Neovim when intentionally updating plugins, then commit
 ./scripts/test-install.sh
 ```
 
-Smoke test stubs Homebrew, NVM, npm, and Pi; uses temporary home directories.
+Smoke test stubs Homebrew, NVM, npm, and Pi with temporary home directories; it
+also syntax-checks the Linux installer. Linux installation needs a Debian/Ubuntu
+VPS for an end-to-end test.
 
 ## Privacy boundary
 

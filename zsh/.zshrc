@@ -59,10 +59,14 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # lowercase input matche
 # Fuzzy finder
 # =========================================================
 
-# macOS / Homebrew (Apple Silicon)
-if [[ -f /opt/homebrew/opt/fzf/shell/key-bindings.zsh ]]; then
-  source /opt/homebrew/opt/fzf/shell/key-bindings.zsh
-  source /opt/homebrew/opt/fzf/shell/completion.zsh
+# Homebrew or distro-provided fzf shell integration
+FZF_SHELL_DIR="${HOMEBREW_PREFIX:-}/opt/fzf/shell"
+if [[ -n "${HOMEBREW_PREFIX:-}" && -f "$FZF_SHELL_DIR/key-bindings.zsh" ]]; then
+  source "$FZF_SHELL_DIR/key-bindings.zsh"
+  source "$FZF_SHELL_DIR/completion.zsh"
+elif [[ -r /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
+  source /usr/share/doc/fzf/examples/key-bindings.zsh
+  [[ -r /usr/share/doc/fzf/examples/completion.zsh ]] && source /usr/share/doc/fzf/examples/completion.zsh
 fi
 
 # =========================================================

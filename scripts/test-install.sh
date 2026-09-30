@@ -2,6 +2,7 @@
 set -eu
 
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+bash -n "$ROOT/install-linux.sh"
 TMP=$(mktemp -d "${TMPDIR:-/tmp}/mac-setup-test.XXXXXX")
 trap 'rm -rf "$TMP"' EXIT HUP INT TERM
 BIN="$TMP/bin"
@@ -96,8 +97,19 @@ run_installer() {
     "$ROOT/install.sh" </dev/null >"$output" 2>&1 || { cat "$output" >&2; return 1; }
 }
 
-contains() { grep -F "$2" "$1" >/dev/null || { printf 'Missing output: %s\n' "$2" >&2; return 1; }; }
-absent() { ! grep -F "$2" "$1" >/dev/null || { printf 'Unexpected output: %s\n' "$2" >&2; return 1; }; }
+contains() {
+  grep -F "$2" "$1" >/dev/null || {
+    printf 'Missing output: %s\n' "$2" >&2
+    return 1
+  }
+}
+
+absent() {
+  ! grep -F "$2" "$1" >/dev/null || {
+    printf 'Unexpected output: %s\n' "$2" >&2
+    return 1
+  }
+}
 
 # Fresh install initializes Node 22 and installs/updates Pi.
 fresh_home="$TMP/fresh"
