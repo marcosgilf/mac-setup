@@ -148,6 +148,10 @@ link_config "$ROOT/zsh" "$ZSH_DIR"
 (( install_ghostty )) && link_config "$ROOT/ghostty/config.ghostty" "$HOME/Library/Application Support/com.mitchellh.ghostty/config.ghostty"
 (( install_herdr )) && link_config "$ROOT/herdr/config.toml" "$CONFIG_HOME/herdr/config.toml"
 link_config "$ROOT/nvim" "$NVIM_DIR"
+link_config "$ROOT/superfile/config.toml" "$CONFIG_HOME/superfile/config.toml"
+link_config "$ROOT/superfile/hotkeys.toml" "$CONFIG_HOME/superfile/hotkeys.toml"
+link_config "$ROOT/superfile/themes/tokyo-night.toml" \
+  "$CONFIG_HOME/superfile/theme/tokyo-night.toml"
 link_config "$ROOT/bootstrap/zshenv" "$HOME/.zshenv"
 
 if (( is_update )); then

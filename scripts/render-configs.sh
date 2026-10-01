@@ -45,4 +45,6 @@ render() {
 render "$ROOT/ghostty/config.ghostty.tmpl" "$ROOT/ghostty/config.ghostty"
 render "$ROOT/herdr/config.toml.tmpl" "$ROOT/herdr/config.toml"
 render "$ROOT/nvim/lua/plugins/tokyo-night.lua.tmpl" "$ROOT/nvim/lua/plugins/tokyo-night.lua"
+render "$ROOT/superfile/config.toml.tmpl" "$ROOT/superfile/config.toml"
+render "$ROOT/superfile/themes/tokyo-night.toml.tmpl" "$ROOT/superfile/themes/tokyo-night.toml"
 render "$ROOT/zsh/starship.toml.tmpl" "$ROOT/zsh/starship.toml"

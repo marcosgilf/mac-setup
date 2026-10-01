@@ -46,7 +46,14 @@ Opinionated macOS development environment with one shared Tokyo Night theme.
 - **[Pi](https://github.com/earendil-works/pi)** — terminal coding agent,
   installed globally with npm.
 - **[Superfile](https://github.com/yorukot/superfile)** — terminal file manager,
-  launched with `spf`.
+  launched with `spf`:
+  - [Vim-like hotkeys](https://superfile.dev/configure/custom-hotkeys/) — uses
+    `h/j/k/l`, `/` search, and familiar copy/paste keys.
+  - [Zoxide plugin](https://superfile.dev/list/plugin-list/) — enabled for
+    frequent-directory navigation with `z`.
+  - [Custom theme](https://superfile.dev/configure/custom-theme/) — Tokyo Night
+    colors come from shared `theme/tokyo-night.sh` variables.
+  - Run `spf pl` to inspect Superfile config paths.
 - **Optional tools:**
   - [Ghostty](https://github.com/ghostty-org/ghostty) — GPU-accelerated terminal.
   - [JetBrainsMono Nerd Font](https://github.com/ryanoasis/nerd-fonts) — font

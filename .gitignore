@@ -7,6 +7,8 @@
 # Rendered configuration
 ghostty/config.ghostty
 herdr/config.toml
+superfile/config.toml
+superfile/themes/tokyo-night.toml
 nvim/lua/plugins/tokyo-night.lua
 nvim/lazyvim.json
 zsh/starship.toml
