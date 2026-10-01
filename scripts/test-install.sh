@@ -21,7 +21,7 @@ case "$1" in
   list) exit 0 ;;
   bundle)
     printf 'Using bat\n'
-    printf '\033[32m`brew bundle` complete! 10 Brewfile dependencies now installed.\033[0m\n'
+    printf '\033[32m`brew bundle` complete! 11 Brewfile dependencies now installed.\033[0m\n'
     printf 'Warning: retained stderr warning\n' >&2
     ;;
   *) printf 'Unexpected brew args: %s\n' "$*" >&2; exit 2 ;;

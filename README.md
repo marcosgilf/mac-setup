@@ -45,6 +45,8 @@ Opinionated macOS development environment with one shared Tokyo Night theme.
     selections are preserved.
 - **[Pi](https://github.com/earendil-works/pi)** — terminal coding agent,
   installed globally with npm.
+- **[Superfile](https://github.com/yorukot/superfile)** — terminal file manager,
+  launched with `spf`.
 - **Optional tools:**
   - [Ghostty](https://github.com/ghostty-org/ghostty) — GPU-accelerated terminal.
   - [JetBrainsMono Nerd Font](https://github.com/ryanoasis/nerd-fonts) — font
@@ -98,6 +100,7 @@ Keep this repository at a stable path because managed symlinks point into it.
 open -a Ghostty
 herdr
 pi
+spf
 nvim
 ```
 
