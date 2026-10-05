@@ -23,7 +23,9 @@ Opinionated macOS development environment with one shared Tokyo Night theme.
   - [fast-syntax-highlighting](https://github.com/zdharma-continuum/fast-syntax-highlighting) —
     highlights shell syntax while editing commands.
 
-  Zsh plugins clone from GitHub on first shell startup.
+  Installer shows plugin descriptions and asks which to enable. Selected
+  plugins clone from GitHub on first shell startup; one enabled plugin per line
+  lives in `$XDG_CONFIG_HOME/mac-setup/zsh-plugins` and can be edited later.
 - **[Neovim](https://github.com/neovim/neovim)** — editor configured with:
   - [LazyVim](https://github.com/LazyVim/LazyVim) — opinionated setup and plugin
     collection.
@@ -44,7 +46,7 @@ Opinionated macOS development environment with one shared Tokyo Night theme.
   - [nvm](https://github.com/nvm-sh/nvm) — manages Node versions; existing
     selections are preserved.
 - **[Pi](https://github.com/earendil-works/pi)** — terminal coding agent,
-  installed globally with npm.
+  installed with its managed installer.
 - **[Superfile](https://github.com/yorukot/superfile)** — terminal file manager,
   launched with `spf`:
   - [Vim-like hotkeys](https://superfile.dev/configure/custom-hotkeys/) — uses
@@ -62,7 +64,7 @@ Opinionated macOS development environment with one shared Tokyo Night theme.
     persistent workspaces and coding agents.
 
 Homebrew manages core tools through `Brewfile`; installer prompts for optional
-tools and links only their selected configs. Theme values live in
+tools and Zsh plugins, and links only selected app configs. Theme values live in
 `theme/tokyo-night.sh`; `scripts/render-configs.sh` generates app-specific
 configuration from those constants.
 
@@ -85,8 +87,8 @@ git clone https://github.com/marcosgilf/mac-setup ~/mac-setup
 
 Installer:
 
-- installs core tools from `Brewfile` and prompts for Ghostty and Herdr only
-  when they are not already installed
+- installs core tools from `Brewfile`, prompts for Ghostty and Herdr only when
+  they are not already installed, and describes each Zsh plugin before choice
 - preserves an existing nvm default/active version; sets Node.js 22 as default
   when no nvm Node is selected
 - installs or migrates Pi with its managed installer when needed, then runs
@@ -131,7 +133,8 @@ Run `:Lazy sync` inside Neovim when intentionally updating plugins, then commit
 ./scripts/test-install.sh
 ```
 
-Smoke test stubs Homebrew, NVM, npm, and Pi; uses temporary home directories.
+Smoke test stubs Homebrew, NVM, npm, Pi installer, and Zsh plugins; uses
+temporary home directories.
 
 ## Privacy boundary
 

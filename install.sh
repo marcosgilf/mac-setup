@@ -5,6 +5,8 @@ readonly ROOT=${0:A:h}
 readonly CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
 readonly ZSH_DIR="$CONFIG_HOME/zsh"
 readonly NVIM_DIR="$CONFIG_HOME/nvim"
+readonly PLUGIN_SELECTION="$CONFIG_HOME/mac-setup/zsh-plugins"
+typeset -ga selected_zsh_plugins=()
 is_update=0
 [[ -L "$ZSH_DIR" && "$(readlink "$ZSH_DIR")" == "$ROOT/zsh" ]] && is_update=1
 
@@ -86,6 +88,28 @@ ask_optional() {
   ask "$prompt"
 }
 
+ask_zsh_plugin() {
+  local name=$1 description=$2
+  print "  $name — $description"
+  if ask "Enable $name?"; then
+    selected_zsh_plugins+=("$name")
+  fi
+  return 0
+}
+
+select_zsh_plugins() {
+  if [[ -f "$PLUGIN_SELECTION" ]]; then
+    print "Using saved Zsh plugin choices: $PLUGIN_SELECTION"
+    return 0
+  fi
+
+  print 'Choose Zsh plugins (Enter accepts each default: yes):'
+  ask_zsh_plugin zsh-autosuggestions 'Suggests commands from history as you type.'
+  ask_zsh_plugin zsh-history-substring-search 'Searches history by typed text with Up/Down.'
+  ask_zsh_plugin zsh-vi-mode 'Adds Vim-style command-line editing modes.'
+  ask_zsh_plugin fast-syntax-highlighting 'Highlights shell commands and syntax as you type.'
+}
+
 install_if_missing() {
   local type=$1 package=$2
   brew list "$type" "$package" >/dev/null 2>&1 || brew install "$type" "$package"
@@ -95,6 +119,7 @@ install_ghostty=0
 install_herdr=0
 ask_optional --cask ghostty 'Install Ghostty terminal?' && install_ghostty=1
 ask_optional --formula herdr 'Install Herdr multiplexer?' && install_herdr=1
+select_zsh_plugins
 
 (( install_ghostty )) && install_if_missing --cask font-jetbrains-mono-nerd-font
 (( install_ghostty )) && install_if_missing --cask ghostty
@@ -147,6 +172,14 @@ preserve_local_zsh
 "$ROOT/scripts/render-configs.sh"
 
 link_config "$ROOT/zsh" "$ZSH_DIR"
+if [[ ! -f "$PLUGIN_SELECTION" ]]; then
+  mkdir -p "${PLUGIN_SELECTION:h}"
+  : > "$PLUGIN_SELECTION"
+  for plugin in "${selected_zsh_plugins[@]}"; do
+    print -r -- "$plugin" >> "$PLUGIN_SELECTION"
+  done
+  print "Saved Zsh plugin choices: $PLUGIN_SELECTION"
+fi
 (( install_ghostty )) && link_config "$ROOT/ghostty/config.ghostty" "$HOME/Library/Application Support/com.mitchellh.ghostty/config.ghostty"
 (( install_herdr )) && link_config "$ROOT/herdr/config.toml" "$CONFIG_HOME/herdr/config.toml"
 link_config "$ROOT/nvim" "$NVIM_DIR"
