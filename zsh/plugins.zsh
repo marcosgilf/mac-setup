@@ -2,17 +2,35 @@
 # Plugins
 # =========================================================
 
-ZPLUGINDIR="${ZDOTDIR:-$HOME/.config/zsh}/plugins"
+ZSH_CONFIG_DIR="${ZDOTDIR:-$HOME/.config/zsh}"
+ZPLUGINDIR="${ZSH_CONFIG_DIR}/plugins"
+PLUGIN_SELECTION="${XDG_CONFIG_HOME:-$HOME/.config}/mac-setup/zsh-plugins"
+typeset -a _MAC_SETUP_ENABLED_ZSH_PLUGINS
+_MAC_SETUP_ENABLED_ZSH_PLUGINS=(
+  zsh-autosuggestions
+  zsh-history-substring-search
+  zsh-vi-mode
+  fast-syntax-highlighting
+)
+if [[ -r "$PLUGIN_SELECTION" ]]; then
+  _MAC_SETUP_ENABLED_ZSH_PLUGINS=()
+  typeset selected_plugin
+  while IFS= read -r selected_plugin; do
+    [[ -n "$selected_plugin" ]] && _MAC_SETUP_ENABLED_ZSH_PLUGINS+=("$selected_plugin")
+  done < "$PLUGIN_SELECTION"
+fi
 
 _zplugin_load() {
-  local plugin_path="${ZPLUGINDIR}/${2}"
+  local owner=$1 name=$2 plugin_path
+  plugin_path="${ZPLUGINDIR}/${name}"
+  [[ " ${_MAC_SETUP_ENABLED_ZSH_PLUGINS[*]} " == *" ${name} "* ]] || return 0
   if [[ ! -d "$plugin_path" ]]; then
     mkdir -p "$ZPLUGINDIR"
-    echo "Installing ${2}..."
-    git clone --depth=1 "https://github.com/${1}/${2}" "$plugin_path" \
-      || { echo "ERROR: failed to install ${2}" >&2; return 1; }
+    echo "Installing ${name}..."
+    git clone --depth=1 "https://github.com/${owner}/${name}" "$plugin_path" \
+      || { echo "ERROR: failed to install ${name}" >&2; return 1; }
   fi
-  source "${plugin_path}/${2}.plugin.zsh"
+  source "${plugin_path}/${name}.plugin.zsh"
 }
 
 zplugin-update() {

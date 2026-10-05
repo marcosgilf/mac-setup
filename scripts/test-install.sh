@@ -94,6 +94,7 @@ chmod +x "$BIN"/*
 run_installer() {
   home=$1
   output=$2
+  answers=${7:-$TMP/plugin-answers}
   HOME="$home" \
   XDG_CONFIG_HOME="$home/.config" \
   ZDOTDIR="$home/.zsh" \
@@ -105,11 +106,13 @@ run_installer() {
   TEST_LOG="$6" \
   TEST_BIN="$BIN" \
   PATH="$BIN:/usr/bin:/bin:/usr/sbin:/sbin" \
-    "$ROOT/install.sh" </dev/null >"$output" 2>&1 || { cat "$output" >&2; return 1; }
+    "$ROOT/install.sh" <"$answers" >"$output" 2>&1 || { cat "$output" >&2; return 1; }
 }
 
 contains() { grep -F "$2" "$1" >/dev/null || { printf 'Missing output: %s\n' "$2" >&2; return 1; }; }
 absent() { ! grep -F "$2" "$1" >/dev/null || { printf 'Unexpected output: %s\n' "$2" >&2; return 1; }; }
+
+printf 'y\ny\ny\ny\n' > "$TMP/plugin-answers"
 
 # Fresh install initializes Node 22 and installs/updates Pi.
 fresh_home="$TMP/fresh"
@@ -136,15 +139,38 @@ contains "$fresh_log/curl" 'pi.dev/install.sh'
 contains "$fresh_log/managed" 'managed install invoked'
 absent "$fresh_log/npm" 'install --global'
 contains "$fresh_log/pi" 'false update --all'
+contains "$fresh_home/.config/mac-setup/zsh-plugins" 'zsh-autosuggestions'
+contains "$fresh_home/.config/mac-setup/zsh-plugins" 'fast-syntax-highlighting'
 
-# Existing npm-installed Pi migrates through the managed installer.
+# Existing npm-installed Pi migrates and user can decline individual Zsh plugins.
 migration_home="$TMP/migration"
 migration_log="$TMP/migration-log"
 mkdir -p "$migration_home" "$migration_log"
-run_installer "$migration_home" "$TMP/migration.out" v22.19.0 22.19.0 1 "$migration_log"
+migration_answers="$TMP/migration-answers"
+printf 'y\nn\ny\nn\n' > "$migration_answers"
+run_installer "$migration_home" "$TMP/migration.out" v22.19.0 22.19.0 1 "$migration_log" "$migration_answers"
 contains "$migration_log/curl" 'pi.dev/install.sh'
 contains "$migration_log/managed" 'managed install invoked'
 contains "$migration_log/pi" 'false update --all'
+contains "$TMP/migration.out" 'Searches history by typed text with Up/Down.'
+contains "$migration_home/.config/mac-setup/zsh-plugins" 'zsh-autosuggestions'
+contains "$migration_home/.config/mac-setup/zsh-plugins" 'zsh-vi-mode'
+absent "$migration_home/.config/mac-setup/zsh-plugins" 'zsh-history-substring-search'
+absent "$migration_home/.config/mac-setup/zsh-plugins" 'fast-syntax-highlighting'
+
+# Selected plugins load; declined plugins stay unloaded.
+runtime_config="$TMP/runtime-config"
+runtime_zsh="$TMP/runtime-zsh"
+plugin_log="$TMP/loaded-plugins"
+mkdir -p "$runtime_config/mac-setup" "$runtime_zsh/plugins"
+printf 'zsh-vi-mode\n' > "$runtime_config/mac-setup/zsh-plugins"
+for plugin in zsh-autosuggestions zsh-history-substring-search zsh-vi-mode fast-syntax-highlighting; do
+  mkdir -p "$runtime_zsh/plugins/$plugin"
+  printf 'print -r -- %s >> "$TEST_PLUGIN_LOG"\n' "$plugin" > "$runtime_zsh/plugins/$plugin/$plugin.plugin.zsh"
+done
+XDG_CONFIG_HOME="$runtime_config" ZDOTDIR="$runtime_zsh" TEST_PLUGIN_LOG="$plugin_log" ROOT="$ROOT" \
+  /bin/zsh -c 'source "$ROOT/zsh/plugins.zsh"'
+[ "$(cat "$plugin_log")" = 'zsh-vi-mode' ]
 
 # Older active Node warns, skips Pi, and does not change the existing default.
 old_home="$TMP/old-node"
