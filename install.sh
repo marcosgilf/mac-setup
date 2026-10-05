@@ -135,10 +135,12 @@ if (( pi_supported )); then
   if npm list --global --depth=0 @mariozechner/pi-coding-agent >/dev/null 2>&1; then
     npm uninstall --global @mariozechner/pi-coding-agent
   fi
-  if ! npm list --global --depth=0 @earendil-works/pi-coding-agent >/dev/null 2>&1; then
-    npm install --global --ignore-scripts --no-fund @earendil-works/pi-coding-agent
+  if npm list --global --depth=0 @earendil-works/pi-coding-agent >/dev/null 2>&1 || ! command -v pi >/dev/null 2>&1; then
+    # Keep upstream installer from auto-launching Pi; setup prints launch steps.
+    curl -fsSL https://pi.dev/install.sh | sh | tee
+    rehash
   fi
-  pi update --all
+  npm_config_fund=false pi update --all
 fi
 
 preserve_local_zsh

@@ -89,8 +89,8 @@ Installer:
   when they are not already installed
 - preserves an existing nvm default/active version; sets Node.js 22 as default
   when no nvm Node is selected
-- installs Pi if missing and runs `pi update --all` when Node.js is 22.19+;
-  warns and skips Pi otherwise
+- installs or migrates Pi with its managed installer when needed, then runs
+  `pi update --all` when Node.js is 22.19+; warns and skips Pi otherwise
 - prints dependency progress and first-install launch steps; reruns report
   `Update completed.`
 - renders configuration files from the shared theme

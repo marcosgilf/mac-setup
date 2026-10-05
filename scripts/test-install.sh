@@ -59,6 +59,7 @@ EOF
 
 cat > "$BIN/npm" <<'EOF'
 #!/bin/sh
+printf '%s\n' "$*" >> "$TEST_LOG/npm"
 case "$1" in
   list)
     case "$*" in
@@ -67,15 +68,25 @@ case "$1" in
       *) exit 2 ;;
     esac
     ;;
-  install|uninstall) printf '%s\n' "$*" >> "$TEST_LOG/npm" ;;
+  install|uninstall) ;;
   *) printf 'Unexpected npm args: %s\n' "$*" >&2; exit 2 ;;
 esac
 EOF
 
-cat > "$BIN/pi" <<'EOF'
+cat > "$BIN/curl" <<'EOF'
+#!/bin/sh
+[ "$*" = '-fsSL https://pi.dev/install.sh' ] || { printf 'Unexpected curl args: %s\n' "$*" >&2; exit 2; }
+printf '%s\n' "$*" >> "$TEST_LOG/curl"
+cat <<'INSTALLER'
+#!/bin/sh
+printf '%s\n' 'managed install invoked' >> "$TEST_LOG/managed"
+cat > "$TEST_BIN/pi" <<'PI'
 #!/bin/sh
 [ "$1" = update ] && [ "$2" = --all ] || exit 2
-printf '%s\n' "$*" >> "$TEST_LOG/pi"
+printf '%s %s\n' "$npm_config_fund" "$*" >> "$TEST_LOG/pi"
+PI
+chmod +x "$TEST_BIN/pi"
+INSTALLER
 EOF
 
 chmod +x "$BIN"/*
@@ -92,7 +103,8 @@ run_installer() {
   FAKE_NODE_VERSION="$4" \
   FAKE_PI_INSTALLED="$5" \
   TEST_LOG="$6" \
-  PATH="$BIN:$PATH" \
+  TEST_BIN="$BIN" \
+  PATH="$BIN:/usr/bin:/bin:/usr/sbin:/sbin" \
     "$ROOT/install.sh" </dev/null >"$output" 2>&1 || { cat "$output" >&2; return 1; }
 }
 
@@ -120,8 +132,19 @@ absent "$ROOT/superfile/themes/tokyo-night.toml" '@BACKGROUND@'
 contains "$ROOT/superfile/hotkeys.toml" "list_up = ['k', '']"
 contains "$ROOT/superfile/hotkeys.toml" "parent_directory = ['h', 'left', 'backspace']"
 contains "$ROOT/superfile/hotkeys.toml" "open_zoxide = ['z', '']"
-contains "$fresh_log/npm" 'install --global'
-contains "$fresh_log/pi" 'update --all'
+contains "$fresh_log/curl" 'pi.dev/install.sh'
+contains "$fresh_log/managed" 'managed install invoked'
+absent "$fresh_log/npm" 'install --global'
+contains "$fresh_log/pi" 'false update --all'
+
+# Existing npm-installed Pi migrates through the managed installer.
+migration_home="$TMP/migration"
+migration_log="$TMP/migration-log"
+mkdir -p "$migration_home" "$migration_log"
+run_installer "$migration_home" "$TMP/migration.out" v22.19.0 22.19.0 1 "$migration_log"
+contains "$migration_log/curl" 'pi.dev/install.sh'
+contains "$migration_log/managed" 'managed install invoked'
+contains "$migration_log/pi" 'false update --all'
 
 # Older active Node warns, skips Pi, and does not change the existing default.
 old_home="$TMP/old-node"
