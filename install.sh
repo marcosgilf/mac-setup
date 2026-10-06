@@ -103,6 +103,15 @@ select_zsh_plugins() {
     return 0
   fi
 
+  local plugin
+  for plugin in zsh-autosuggestions zsh-history-substring-search zsh-vi-mode fast-syntax-highlighting; do
+    [[ -f "$ZSH_DIR/plugins/$plugin/$plugin.plugin.zsh" ]] && selected_zsh_plugins+=("$plugin")
+  done
+  if (( ${#selected_zsh_plugins[@]} )); then
+    print 'Detected installed Zsh plugins; preserving selection.'
+    return 0
+  fi
+
   print 'Choose Zsh plugins (Enter accepts each default: yes):'
   ask_zsh_plugin zsh-autosuggestions 'Suggests commands from history as you type.'
   ask_zsh_plugin zsh-history-substring-search 'Searches history by typed text with Up/Down.'

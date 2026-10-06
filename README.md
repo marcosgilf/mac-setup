@@ -23,9 +23,10 @@ Opinionated macOS development environment with one shared Tokyo Night theme.
   - [fast-syntax-highlighting](https://github.com/zdharma-continuum/fast-syntax-highlighting) —
     highlights shell syntax while editing commands.
 
-  Installer shows plugin descriptions and asks which to enable. Selected
-  plugins clone from GitHub on first shell startup; one enabled plugin per line
-  lives in `$XDG_CONFIG_HOME/mac-setup/zsh-plugins` and can be edited later.
+  Installer shows descriptions and asks which plugins to enable on first
+  install. Updates detect existing plugin checkouts and preserve choices without
+  prompting. Selected plugins clone on first shell startup; choices live in
+  `$XDG_CONFIG_HOME/mac-setup/zsh-plugins` and can be edited later.
 - **[Neovim](https://github.com/neovim/neovim)** — editor configured with:
   - [LazyVim](https://github.com/LazyVim/LazyVim) — opinionated setup and plugin
     collection.
@@ -88,7 +89,8 @@ git clone https://github.com/marcosgilf/mac-setup ~/mac-setup
 Installer:
 
 - installs core tools from `Brewfile`, prompts for Ghostty and Herdr only when
-  they are not already installed, and describes each Zsh plugin before choice
+  they are not already installed, and describes each Zsh plugin before choice;
+  updates detect existing plugin checkouts without prompting
 - preserves an existing nvm default/active version; sets Node.js 22 as default
   when no nvm Node is selected
 - installs or migrates Pi with its managed installer when needed, then runs
