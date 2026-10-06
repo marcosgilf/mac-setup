@@ -142,6 +142,19 @@ contains "$fresh_log/pi" 'false update --all'
 contains "$fresh_home/.config/mac-setup/zsh-plugins" 'zsh-autosuggestions'
 contains "$fresh_home/.config/mac-setup/zsh-plugins" 'fast-syntax-highlighting'
 
+# Existing plugin checkouts become saved choices without prompting during upgrade.
+upgrade_home="$TMP/upgrade"
+upgrade_zsh="$TMP/upgrade-zsh"
+upgrade_log="$TMP/upgrade-log"
+mkdir -p "$upgrade_home/.config" "$upgrade_zsh/plugins/zsh-vi-mode" "$upgrade_log"
+: > "$upgrade_zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
+ln -s "$upgrade_zsh" "$upgrade_home/.config/zsh"
+run_installer "$upgrade_home" "$TMP/upgrade.out" v22.19.0 22.19.0 0 "$upgrade_log"
+contains "$TMP/upgrade.out" 'Detected installed Zsh plugins'
+absent "$TMP/upgrade.out" 'Choose Zsh plugins'
+contains "$upgrade_home/.config/mac-setup/zsh-plugins" 'zsh-vi-mode'
+absent "$upgrade_home/.config/mac-setup/zsh-plugins" 'zsh-autosuggestions'
+
 # Existing npm-installed Pi migrates and user can decline individual Zsh plugins.
 migration_home="$TMP/migration"
 migration_log="$TMP/migration-log"
