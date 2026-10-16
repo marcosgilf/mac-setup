@@ -205,6 +205,12 @@ fi
 (( install_ghostty )) && link_config "$ROOT/ghostty/config.ghostty" "$HOME/Library/Application Support/com.mitchellh.ghostty/config.ghostty"
 (( install_herdr )) && link_config "$ROOT/herdr/config.toml" "$CONFIG_HOME/herdr/config.toml"
 link_config "$ROOT/nvim" "$NVIM_DIR"
+old_copilot_core="$HOME/.pi/agent/extensions/copilot-usage-core.ts"
+if [[ -L "$old_copilot_core" && "$(readlink "$old_copilot_core")" == "$ROOT/pi/extensions/copilot-usage-core.ts" ]]; then
+  rm "$old_copilot_core"
+fi
+link_config "$ROOT/pi/extensions/copilot-usage.ts" "$HOME/.pi/agent/extensions/copilot-usage.ts"
+link_config "$ROOT/pi/extensions/lib/copilot-usage-core.ts" "$HOME/.pi/agent/extensions/lib/copilot-usage-core.ts"
 link_config "$ROOT/superfile/config.toml" "$CONFIG_HOME/superfile/config.toml"
 link_config "$ROOT/superfile/hotkeys.toml" "$CONFIG_HOME/superfile/hotkeys.toml"
 link_config "$ROOT/superfile/themes/tokyo-night.toml" \

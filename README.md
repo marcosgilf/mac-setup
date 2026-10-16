@@ -47,7 +47,9 @@ Opinionated macOS development environment with one shared Tokyo Night theme.
   - [nvm](https://github.com/nvm-sh/nvm) — manages Node versions; existing
     selections are preserved.
 - **[Pi](https://github.com/earendil-works/pi)** — terminal coding agent,
-  installed with its managed installer.
+  installed with its managed installer. The `/copilot-usage` extension shows
+  Copilot AI-credit usage, session token totals, and context use; `super+shift+u`
+  opens the panel.
 - **[Superfile](https://github.com/yorukot/superfile)** — terminal file manager,
   launched with `spf`:
   - [Vim-like hotkeys](https://superfile.dev/configure/custom-hotkeys/) — uses
@@ -93,8 +95,9 @@ Installer:
   updates detect existing plugin checkouts without prompting
 - preserves an existing nvm default/active version; sets Node.js 22 as default
   when no nvm Node is selected
-- installs or migrates Pi with its managed installer when needed, then runs
-  `pi update --all` when Node.js is 22.19+; warns and skips Pi otherwise
+- installs or migrates Pi with its managed installer when needed, links the
+  Copilot usage extension, then runs `pi update --all` when Node.js is 22.19+;
+  warns and skips Pi otherwise
 - prints dependency progress and first-install launch steps; reruns report
   `Update completed.`
 - renders configuration files from the shared theme
@@ -115,6 +118,13 @@ spf
 nvim
 ```
 
+In Pi, run `/copilot-usage` or press `super+shift+u` to open usage panel.
+
+The extension reads Copilot's account quota through GitHub's internal
+`copilot_internal/user` endpoint via `gh`. This endpoint is undocumented and
+may change. Authorize access once with `gh auth refresh -h github.com -s user`;
+this adds `user` scope to GitHub CLI's OAuth token.
+
 Start a new shell after installation. Neovim plugins install on first launch;
 `nvim/lazy-lock.json` records their versions.
 
@@ -133,6 +143,7 @@ Run `:Lazy sync` inside Neovim when intentionally updating plugins, then commit
 
 ```sh
 ./scripts/test-install.sh
+node --experimental-strip-types --test tests/copilot-usage.test.mjs
 ```
 
 Smoke test stubs Homebrew, NVM, npm, Pi installer, and Zsh plugins; uses

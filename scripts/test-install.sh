@@ -129,6 +129,9 @@ grep -Fx '22' "$fresh_home/.nvm/alias/default" >/dev/null
 [ "$(readlink "$fresh_home/.config/superfile/config.toml")" = "$ROOT/superfile/config.toml" ]
 [ "$(readlink "$fresh_home/.config/superfile/hotkeys.toml")" = "$ROOT/superfile/hotkeys.toml" ]
 [ "$(readlink "$fresh_home/.config/superfile/theme/tokyo-night.toml")" = "$ROOT/superfile/themes/tokyo-night.toml" ]
+[ "$(readlink "$fresh_home/.pi/agent/extensions/copilot-usage.ts")" = "$ROOT/pi/extensions/copilot-usage.ts" ]
+[ "$(readlink "$fresh_home/.pi/agent/extensions/lib/copilot-usage-core.ts")" = "$ROOT/pi/extensions/lib/copilot-usage-core.ts" ]
+[ ! -e "$fresh_home/.pi/agent/extensions/copilot-usage-core.ts" ]
 contains "$ROOT/superfile/config.toml" 'theme = "tokyo-night"'
 contains "$ROOT/superfile/config.toml" 'zoxide_support = true'
 contains "$ROOT/superfile/themes/tokyo-night.toml" 'full_screen_bg = "#1a1b26"'
@@ -147,13 +150,17 @@ contains "$fresh_home/.config/mac-setup/zsh-plugins" 'fast-syntax-highlighting'
 upgrade_home="$TMP/upgrade"
 upgrade_zsh="$TMP/upgrade-zsh"
 upgrade_log="$TMP/upgrade-log"
-mkdir -p "$upgrade_home/.config" "$upgrade_zsh/plugins/zsh-vi-mode" "$upgrade_log"
+mkdir -p "$upgrade_home/.config" "$upgrade_zsh/plugins/zsh-vi-mode" "$upgrade_log" "$upgrade_home/.pi/agent/extensions"
 : > "$upgrade_zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
 ln -s "$upgrade_zsh" "$upgrade_home/.config/zsh"
+ln -s "$ROOT/pi/extensions/copilot-usage-core.ts" "$upgrade_home/.pi/agent/extensions/copilot-usage-core.ts"
 run_installer "$upgrade_home" "$TMP/upgrade.out" v22.19.0 22.19.0 0 "$upgrade_log"
 contains "$TMP/upgrade.out" 'Detected installed Zsh plugins'
 absent "$TMP/upgrade.out" 'Choose Zsh plugins'
 contains "$upgrade_home/.config/mac-setup/zsh-plugins" 'zsh-vi-mode'
+[ ! -e "$upgrade_home/.pi/agent/extensions/copilot-usage-core.ts" ]
+[ ! -L "$upgrade_home/.pi/agent/extensions/copilot-usage-core.ts" ]
+[ "$(readlink "$upgrade_home/.pi/agent/extensions/lib/copilot-usage-core.ts")" = "$ROOT/pi/extensions/lib/copilot-usage-core.ts" ]
 absent "$upgrade_home/.config/mac-setup/zsh-plugins" 'zsh-autosuggestions'
 
 # Existing npm-installed Pi migrates and user can decline individual Zsh plugins.
